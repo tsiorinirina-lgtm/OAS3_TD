@@ -1,0 +1,65 @@
+openapi: 3.0.3
+info:
+  title: API Bibliothèque HEI
+  version: 1.0.0
+  description: Gestion des livres et des emprunts
+servers:
+  - url: 'https://api.hei.school/v1'
+  - url: 'https://staging.hei.school/v1'
+    description: Environnement de test
+paths:
+  /livres:
+    get:
+      summary: Lister les livres
+      parameters:
+        - in: query
+          name: page
+          description: Paramètre pour sélectionner la page. Par défaut, 1.
+          schema:
+            type: integer
+            default: 1
+          required: false
+        - in: query
+          name: limit
+          description: Paramètre pour sélectionner la taille de la page. Par défaut, 20.
+          schema:
+            type: integer
+            default: 20
+          required: false
+      responses:
+        '200':
+          description: Liste des livres
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                required:
+                  - titre
+                properties:
+                  titre:
+                    type: string
+                  auteur:
+                    type: string
+      responses:
+        '201':
+          description: Livre créé
+        '422':
+          description: Donnée invalide
+  /livres/{id}:
+    get:
+      summary: Lire un livre
+      parameters:
+        - name: id
+          in: path
+          schema: { type: integer }
+          required: true
+      responses:
+        '200':
+          description: Livre trouvé
+        '404':
+          description: Livre introuvable
