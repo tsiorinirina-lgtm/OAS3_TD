@@ -111,8 +111,6 @@ components:
   schemas:
     Livre:
       type: object
-      required:
-        - title
       properties:
         id:
           type: integer
@@ -120,3 +118,5 @@ components:
           type: string
         auteur:
           type: string
+      required:
+        - title
