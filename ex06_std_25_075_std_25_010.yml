@@ -1,0 +1,30 @@
+openapi: '3.0.3'
+info:
+  title: API Bibliotheque HEI
+  version: '1.0'
+  description: Gestion des livres et des emprunts
+servers:
+  - url: https://api.hei.school/v1
+  - url: https://staging.hei.school/v1
+paths:
+  /livres:
+    get:
+      summary: 'lire un livres'
+      parameters:
+        - name: page
+          in: query
+          required: false
+          description: La page de résultats
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          required: false
+          description: Le nombre de résultats par page
+          schema:
+            type: integer
+            default: 20
+      responses:
+        '200':
+          description: OK

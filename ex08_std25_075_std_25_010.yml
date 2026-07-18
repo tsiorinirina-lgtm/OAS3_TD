@@ -1,0 +1,105 @@
+openapi: 3.0.3
+info:
+  title: API Bibliotheque HEI
+  version: '1.0'
+  description: Gestion des livres et des emprunts
+servers:
+  - url: https://api.hei.school/v1
+  - url: https://staging.hei.school/v1
+paths:
+  /livres:
+    get:
+      summary: 'lire un livres'
+      parameters:
+        - name: page
+          in: query
+          required: false
+          description: La page de résultats
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          required: false
+          description: Le nombre de résultats par page
+          schema:
+            type: integer
+            default: 20
+      responses:
+        '200':
+          description: OK
+    post:
+      summary: 'Créer un livre'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                titre:
+                  type: string
+                  description: Le titre du livre
+                auteur:
+                  type: string
+                  description: L'auteur du livre
+              required:
+                - titre
+      responses:
+        '201':
+          description: Livre créé
+        '422':
+          description: Requête invalide
+    
+  /livres/{id}:
+    put:
+      summary: Remplacement complet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                titre:
+                  type: string
+                  description: Le titre du livre
+                auteur:
+                  type: string
+                  description: L'auteur du livre
+              required:
+                - titre
+      responses:
+        '200':
+          description: Livre trouvé
+        '422':
+          description: Requête invalide
+    patch:
+      summary: Mise à jour partielle
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                titre:
+                  type: string
+                  description: Le titre du livre
+                auteur:
+                  type: string
+                  description: L'auteur du livre
+      responses:
+        '200':
+          description: Livre récupéré avec succès
+        '404':
+          description: Livre non trouvé
+        '422':
+          description: Requête invalide
+    delete:
+      summary: Supprimer un livre
+      responses:
+        '204':
+          description: Livre supprimé avec succès
+        '404':
+          description: Livre non trouvé
