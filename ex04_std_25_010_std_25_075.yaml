@@ -4,15 +4,15 @@ info:
   version: 1.0.0
   description: Gestion des livres et des emprunts
 servers:
-  - url: 'https://api.hei.school/v1'
-  - url: 'https://staging.hei.school/v1'
+  - url: "https://api.hei.school/v1"
+  - url: "https://staging.hei.school/v1"
     description: Environnement de test
 paths:
   /livres:
     get:
       summary: Lister les livres
       responses:
-        '200':
+        "200":
           description: Liste des livres
   /livres/{id}:
     get:
@@ -21,6 +21,7 @@ paths:
         - name: id
           in: path
           schema: { type: integer }
+          required: true
       responses:
-        '200':
+        "200":
           description: Livre trouvé
