@@ -45,6 +45,15 @@ paths:
           description: Livre créé
         "422":
           description: Données invalides
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Erreur"
+              example:
+                type: "https://api.hei.school/erreurs/donnees-invalides"
+                title: Données invalides
+                status: 422
+                detail: Les données fournies pour le livre sont invalides. Veuillez vérifier les champs requis et leur format.
   /livres/{id}:
     get:
       summary: Lire un livre
@@ -53,16 +62,20 @@ paths:
           in: path
           schema: { type: integer }
           required: true
-          example: 1
       responses:
         "200":
           description: Livre trouvé
+        "404":
+          description: Livre introuvable
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Livre"
-        "404":
-          description: Livre introuvable
+                $ref: "#/components/schemas/Erreur"
+              example:
+                type: "https://api.hei.school/erreurs/livre-introuvable"
+                title: Livre introuvable
+                status: 404
+                detail: Aucun livre trouvé avec l'identifiant fourni.
     put:
       summary: remplacer un livre
       requestBody:
@@ -185,3 +198,10 @@ components:
       required:
         - type
         - title
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+security:
+  - bearerAuth: []
