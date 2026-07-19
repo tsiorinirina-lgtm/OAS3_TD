@@ -45,15 +45,6 @@ paths:
           description: Livre créé
         "422":
           description: Données invalides
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Erreur"
-              example:
-                type: "https://api.hei.school/erreurs/donnees-invalides"
-                title: Données invalides
-                status: 422
-                detail: Les données fournies pour le livre sont invalides. Veuillez vérifier les champs requis et leur format.
   /livres/{id}:
     get:
       summary: Lire un livre
@@ -65,17 +56,12 @@ paths:
       responses:
         "200":
           description: Livre trouvé
-        "404":
-          description: Livre introuvable
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Erreur"
-              example:
-                type: "https://api.hei.school/erreurs/livre-introuvable"
-                title: Livre introuvable
-                status: 404
-                detail: Aucun livre trouvé avec l'identifiant fourni.
+                $ref: "#/components/schemas/Livre"
+        "404":
+          description: Livre introuvable
     put:
       summary: remplacer un livre
       requestBody:
@@ -167,6 +153,43 @@ paths:
                 title: Livre introuvable
                 status: 404
                 detail: Aucun livre trouvé avec l'identifiant fourni.
+  /emprunts:
+    post:
+      summary: Emprunter un livre
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+              $ref: "#/components/schemas/Emprunts"
+      responses:
+        "201":
+          description: Livre emprunté
+        "422":
+          description: Données invalides
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Erreur"
+              example:
+                type: "https://api.hei.school/erreurs/donnees-invalides"
+                title: Données invalides
+                status: 422
+                detail: Les données fournies pour le livre sont invalides. Veuillez vérifier les champs requis et leur format.
+  /livres/{id}/emprunts:
+    get:
+      summary: Lister les emprunts du livre
+      responses:
+        "200":
+          description: Liste des emprunts du livre
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Emprunts"
 components:
   schemas:
     Livre:
@@ -198,3 +221,16 @@ components:
       required:
         - type
         - title
+    Emprunts:
+      type: object
+      properties:
+        id:
+          type: integer
+        LivreId:
+          type: integer
+        DateEmprunt:
+          type: string
+          format: date
+        DateRetour:
+          type: string
+          format: date
