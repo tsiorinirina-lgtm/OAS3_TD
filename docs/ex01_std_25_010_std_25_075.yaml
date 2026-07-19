@@ -1,6 +1,0 @@
-openapi: 3.0.3
-info:
-  title: API Bibliothèque HEI
-  version: 1.0.0
-  description: Gestion des livres et des emprunts
-paths: {}

@@ -29,6 +29,7 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Livre"
+
     post:
       summary: Ajouter un livre
       requestBody:
@@ -52,6 +53,7 @@ paths:
           in: path
           schema: { type: integer }
           required: true
+          example: 1
       responses:
         "200":
           description: Livre trouvé
@@ -76,8 +78,26 @@ paths:
           description: Livre remplacé
         "404":
           description: Livre introuvable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Erreur"
+              example:
+                type: "https://api.hei.school/erreurs/livre-introuvable"
+                title: Livre introuvable
+                status: 404
+                detail: Aucun livre trouvé avec l'identifiant fourni.
         "422":
           description: Données invalides
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Erreur"
+              example:
+                type: "https://api.hei.school/erreurs/donnees-invalides"
+                title: Données invalides
+                status: 422
+                detail: Les données fournies pour le livre sont invalides. Veuillez vérifier les champs requis et leur format.
     patch:
       summary: Mettre à jour un livre
       requestBody:
@@ -93,8 +113,26 @@ paths:
           description: Livre mis à jour
         "404":
           description: Livre introuvable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Erreur"
+              example:
+                type: "https://api.hei.school/erreurs/livre-introuvable"
+                title: Livre introuvable
+                status: 404
+                detail: Aucun livre trouvé avec l'identifiant fourni.
         "422":
           description: Données invalides
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Erreur"
+              example:
+                type: "https://api.hei.school/erreurs/donnees-invalides"
+                title: Données invalides
+                status: 422
+                detail: Les données fournies pour le livre sont invalides. Veuillez vérifier les champs requis et leur format.
     delete:
       summary: Supprimer un livre
       parameters:
@@ -107,6 +145,15 @@ paths:
           description: Livre supprimé
         "404":
           description: Livre introuvable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Erreur"
+              example:
+                type: "https://api.hei.school/erreurs/livre-introuvable"
+                title: Livre introuvable
+                status: 404
+                detail: Aucun livre trouvé avec l'identifiant fourni.
 components:
   schemas:
     Livre:
@@ -119,4 +166,22 @@ components:
         auteur:
           type: string
       required:
+        - titre
+      example:
+        id: 42
+        titre: Dadabe
+        auteur: Michèle Rakotoson
+    Erreur:
+      type: object
+      properties:
+        type:
+          type: string
+        title:
+          type: string
+        status:
+          type: integer
+        detail:
+          type: string
+      required:
+        - type
         - title
