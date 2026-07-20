@@ -1,0 +1,299 @@
+openapi: 3.0.3
+info:
+  title: API Bibliothèque HEI
+  version: 1.0.0
+  description: Gestion de livres et des emprunts
+servers:
+  - url: https://api.hei.school/v1
+  - url: https://staging.hei.school/v1
+    description: Environnement de test
+paths:
+  /livres:
+    get:
+      tags:
+        - Livres
+      summary: Lister les livres
+      parameters:
+        - name: page
+          in: query
+          schema: { type: integer, default: 1 }
+          description: Numéro de la page à récupérer
+        - name: limit
+          in: query
+          schema: { type: integer, default: 20 }
+          description: Nombre de livres par page
+      responses:
+        "200":
+          description: Liste des livres
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Livre"
+
+    post:
+      tags:
+        - Livres
+      summary: Ajouter des livres
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/Livre"
+      responses:
+        "201":
+          description: Livre créé
+        "422":
+          description: Données invalides
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Erreur"
+              example:
+                type: "https://api.hei.school/erreurs/donnees-invalides"
+                title: Données invalides
+                status: 422
+                detail: Les données fournies pour le livre sont invalides. Veuillez vérifier les champs requis et leur format.
+  /livres/{id}:
+    get:
+      tags:
+        - Livres
+      summary: Lire un livre
+      parameters:
+        - name: id
+          in: path
+          schema: { type: integer }
+          required: true
+      responses:
+        "200":
+          description: Livre trouvé
+        "404":
+          description: Livre introuvable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Erreur"
+              example:
+                type: "https://api.hei.school/erreurs/livre-introuvable"
+                title: Livre introuvable
+                status: 404
+                detail: Aucun livre trouvé avec l'identifiant fourni.
+    put:
+      tags:
+        - Livres
+      summary: remplacer un livre
+      parameters:
+        - name: id
+          in: path
+          schema: { type: integer }
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/Livre"
+      responses:
+        "200":
+          description: Livres remplacés
+        "404":
+          description: Livres introuvables
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Erreur"
+              example:
+                type: "https://api.hei.school/erreurs/livres-introuvables"
+                title: Livres introuvables
+                status: 404
+                detail: Aucun livre trouvé avec l'identifiant fourni.
+        "422":
+          description: Données invalides
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Erreur"
+              example:
+                type: "https://api.hei.school/erreurs/donnees-invalides"
+                title: Données invalides
+                status: 422
+                detail: Les données fournies pour le livre sont invalides. Veuillez vérifier les champs requis et leur format.
+    patch:
+      tags:
+        - Livres
+      summary: Mettre à jour des livres
+      parameters:
+        - name: id
+          in: path
+          schema: { type: integer }
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Livre"
+      responses:
+        "200":
+          description: Livres mis à jour
+        "404":
+          description: Livres introuvables
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Erreur"
+              example:
+                type: "https://api.hei.school/erreurs/livres-introuvables"
+                title: Livres introuvables
+                status: 404
+                detail: Aucun livre trouvé avec l'identifiant fourni.
+        "422":
+          description: Données invalides
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Erreur"
+              example:
+                type: "https://api.hei.school/erreurs/donnees-invalides"
+                title: Données invalides
+                status: 422
+                detail: Les données fournies pour le livre sont invalides. Veuillez vérifier les champs requis et leur format.
+    delete:
+      tags:
+        - Livres
+      summary: Supprimer un livre
+      parameters:
+        - name: id
+          in: path
+          schema: { type: integer }
+          required: true
+      responses:
+        "204":
+          description: Livre supprimé
+        "404":
+          description: Livre introuvable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Erreur"
+              example:
+                type: "https://api.hei.school/erreurs/livres-introuvables"
+                title: Livres introuvables
+                status: 404
+                detail: Aucun livre trouvé avec l'identifiant fourni.
+  /emprunts:
+    post:
+      tags:
+        - Emprunts
+      summary: Emprunter un livre
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              items:
+              $ref: "#/components/schemas/Emprunts"
+      responses:
+        "201":
+          description: Livre emprunté
+        "422":
+          description: Données invalides
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Erreur"
+              example:
+                type: "https://api.hei.school/erreurs/donnees-invalides"
+  /livres/{id}/emprunts:
+    get:
+      tags:
+        - Emprunts
+      summary: Lister les emprunts du livre
+      parameters:
+        - name: id
+          in: path
+          schema: { type: integer }
+          required: true
+      responses:
+        "200":
+          description: Liste des emprunts du livre
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Emprunts"
+        "404":
+          description: Livre introuvable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Erreur"
+              example:
+                type: "https://api.hei.school/erreurs/livres-introuvables"
+                title: Livres introuvables
+                status: 404
+                detail: Aucun livre trouvé avec l'identifiant fourni.
+components:
+  schemas:
+    Livre:
+      type: object
+      properties:
+        id:
+          type: integer
+        titre:
+          type: string
+        auteur:
+          type: string
+      required:
+        - titre
+        - id
+      example:
+        id: 42
+        titre: Dadabe
+        auteur: Michèle Rakotoson
+    Erreur:
+      type: object
+      properties:
+        type:
+          type: string
+        title:
+          type: string
+        status:
+          type: integer
+        detail:
+          type: string
+      required:
+        - type
+        - title
+    Emprunts:
+      type: object
+      properties:
+        id:
+          type: integer
+        LivreId:
+          type: integer
+        DateEmprunt:
+          type: string
+          format: date
+        DateRetour:
+          type: string
+          format: date
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+security:
+  - bearerAuth: []
+tags:
+  - name: Livres
+    description: Operations liées à la gestion bibliographique des livres
+  - name: Emprunts
+    description: Operations liées à la gestion des emprunts de livres
