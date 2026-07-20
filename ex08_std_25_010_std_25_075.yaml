@@ -59,7 +59,12 @@ paths:
         "404":
           description: Livre introuvable
     put:
-      summary: remplacer un livre
+      summary: remplacer des livres
+      parameters:
+        - name: id
+          in: path
+          schema: { type: integer }
+          required: true
       requestBody:
         required: true
         content:
@@ -77,13 +82,18 @@ paths:
                 - titre
       responses:
         "200":
-          description: Livre remplacé
+          description: Livres remplacés
         "404":
-          description: Livre introuvable
+          description: Livres introuvables
         "422":
           description: Données invalides
     patch:
-      summary: Mettre à jour un livre
+      summary: Mettre à jour des livres
+      parameters:
+        - name: id
+          in: path
+          schema: { type: integer }
+          required: true
       requestBody:
         required: true
         content:
@@ -99,9 +109,9 @@ paths:
                   type: string
       responses:
         "200":
-          description: Livre mis à jour
+          description: Livres mis à jour
         "404":
-          description: Livre introuvable
+          description: Livres introuvables
         "422":
           description: Données invalides
     delete:

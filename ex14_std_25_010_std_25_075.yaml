@@ -35,7 +35,7 @@ paths:
     post:
       tags:
         - Livres
-      summary: Ajouter un livre
+      summary: Ajouter des livres
       requestBody:
         required: true
         content:
@@ -86,6 +86,11 @@ paths:
       tags:
         - Livres
       summary: remplacer un livre
+      parameters:
+        - name: id
+          in: path
+          schema: { type: integer }
+          required: true
       requestBody:
         required: true
         content:
@@ -96,16 +101,16 @@ paths:
                 $ref: "#/components/schemas/Livre"
       responses:
         "200":
-          description: Livre remplacé
+          description: Livres remplacés
         "404":
-          description: Livre introuvable
+          description: Livres introuvables
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Erreur"
               example:
-                type: "https://api.hei.school/erreurs/livre-introuvable"
-                title: Livre introuvable
+                type: "https://api.hei.school/erreurs/livres-introuvables"
+                title: Livres introuvables
                 status: 404
                 detail: Aucun livre trouvé avec l'identifiant fourni.
         "422":
@@ -122,27 +127,30 @@ paths:
     patch:
       tags:
         - Livres
-      summary: Mettre à jour un livre
+      summary: Mettre à jour des livres
+      parameters:
+        - name: id
+          in: path
+          schema: { type: integer }
+          required: true
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              type: array
-              items:
-                $ref: "#/components/schemas/Livre"
+              $ref: "#/components/schemas/Livre"
       responses:
         "200":
-          description: Livre mis à jour
+          description: Livres mis à jour
         "404":
-          description: Livre introuvable
+          description: Livres introuvables
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Erreur"
               example:
-                type: "https://api.hei.school/erreurs/livre-introuvable"
-                title: Livre introuvable
+                type: "https://api.hei.school/erreurs/livres-introuvables"
+                title: Livres introuvables
                 status: 404
                 detail: Aucun livre trouvé avec l'identifiant fourni.
         "422":
@@ -175,19 +183,20 @@ paths:
               schema:
                 $ref: "#/components/schemas/Erreur"
               example:
-                type: "https://api.hei.school/erreurs/livre-introuvable"
-                title: Livre introuvable
+                type: "https://api.hei.school/erreurs/livres-introuvables"
+                title: Livres introuvables
                 status: 404
                 detail: Aucun livre trouvé avec l'identifiant fourni.
   /emprunts:
     post:
+      tags:
+        - Emprunts
       summary: Emprunter un livre
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              type: array
               items:
               $ref: "#/components/schemas/Emprunts"
       responses:
@@ -201,14 +210,16 @@ paths:
                 $ref: "#/components/schemas/Erreur"
               example:
                 type: "https://api.hei.school/erreurs/donnees-invalides"
-                title: Données invalides
-                status: 422
-                detail: Les données fournies pour le livre sont invalides. Veuillez vérifier les champs requis et leur format.
   /livres/{id}/emprunts:
     get:
       tags:
         - Emprunts
       summary: Lister les emprunts du livre
+      parameters:
+        - name: id
+          in: path
+          schema: { type: integer }
+          required: true
       responses:
         "200":
           description: Liste des emprunts du livre
@@ -218,6 +229,17 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Emprunts"
+        "404":
+          description: Livre introuvable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Erreur"
+              example:
+                type: "https://api.hei.school/erreurs/livres-introuvables"
+                title: Livres introuvables
+                status: 404
+                detail: Aucun livre trouvé avec l'identifiant fourni.
 components:
   schemas:
     Livre:
@@ -231,6 +253,7 @@ components:
           type: string
       required:
         - titre
+        - id
       example:
         id: 42
         titre: Dadabe

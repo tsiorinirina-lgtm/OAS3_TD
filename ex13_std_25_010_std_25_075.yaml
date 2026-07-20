@@ -72,12 +72,17 @@ paths:
               schema:
                 $ref: "#/components/schemas/Erreur"
               example:
-                type: "https://api.hei.school/erreurs/livre-introuvable"
+                type: "https://api.hei.school/erreurs/livres-introuvables"
                 title: Livre introuvable
                 status: 404
                 detail: Aucun livre trouvé avec l'identifiant fourni.
     put:
-      summary: remplacer un livre
+      summary: remplacer des livres
+      parameters:
+        - name: id
+          in: path
+          schema: { type: integer }
+          required: true
       requestBody:
         required: true
         content:
@@ -88,15 +93,15 @@ paths:
                 $ref: "#/components/schemas/Livre"
       responses:
         "200":
-          description: Livre remplacé
+          description: Livres remplacés
         "404":
-          description: Livre introuvable
+          description: Livres introuvables
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Erreur"
               example:
-                type: "https://api.hei.school/erreurs/livre-introuvable"
+                type: "https://api.hei.school/erreurs/livres-introuvables"
                 title: Livre introuvable
                 status: 404
                 detail: Aucun livre trouvé avec l'identifiant fourni.
@@ -112,7 +117,12 @@ paths:
                 status: 422
                 detail: Les données fournies pour le livre sont invalides. Veuillez vérifier les champs requis et leur format.
     patch:
-      summary: Mettre à jour un livre
+      summary: Mettre à jour des livres
+      parameters:
+        - name: id
+          in: path
+          schema: { type: integer }
+          required: true
       requestBody:
         required: true
         content:
@@ -131,7 +141,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Erreur"
               example:
-                type: "https://api.hei.school/erreurs/livre-introuvable"
+                type: "https://api.hei.school/erreurs/livres-introuvables"
                 title: Livre introuvable
                 status: 404
                 detail: Aucun livre trouvé avec l'identifiant fourni.
@@ -163,7 +173,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Erreur"
               example:
-                type: "https://api.hei.school/erreurs/livre-introuvable"
+                type: "https://api.hei.school/erreurs/livres-introuvables"
                 title: Livre introuvable
                 status: 404
                 detail: Aucun livre trouvé avec l'identifiant fourni.
@@ -204,6 +214,17 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Emprunts"
+        "404":
+          description: Livre introuvable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Erreur"
+              example:
+                type: "https://api.hei.school/erreurs/livres-introuvables"
+                title: Livre introuvable
+                status: 404
+                detail: Aucun livre trouvé avec l'identifiant fourni.
 components:
   schemas:
     Livre:
