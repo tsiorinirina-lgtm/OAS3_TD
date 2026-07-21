@@ -198,7 +198,7 @@ paths:
           application/json:
             schema:
               items:
-              $ref: "#/components/schemas/Emprunts"
+                $ref: "#/components/schemas/Emprunts"
       responses:
         "201":
           description: Livre emprunté
