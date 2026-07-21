@@ -2,36 +2,40 @@ openapi: 3.0.3
 info:
   title: API Bibliothèque HEI
   version: 1.0.0
-  description: Gestion de livres et des emprunts
+  description: Gestion des livres et des emprunts
 servers:
-  - url: https://api.hei.school/v1
-  - url: https://staging.hei.school/v1
+  - url: 'https://api.hei.school/v1'
+  - url: 'https://staging.hei.school/v1'
     description: Environnement de test
 paths:
   /livres:
     get:
       summary: Lister les livres
       parameters:
-        - name: page
-          in: query
-          schema: { type: integer, default: 1 }
-          description: Numéro de la page à récupérer
-        - name: limit
-          in: query
-          schema: { type: integer, default: 20 }
-          description: Nombre de livres par page
+        - in: query
+          name: page
+          description: Paramètre pour sélectionner la page. Par défaut, 1.
+          schema:
+            type: integer
+            default: 1
+          required: false
+        - in: query
+          name: limit
+          description: Paramètre pour sélectionner la taille de la page. Par défaut, 20.
+          schema:
+            type: integer
+            default: 20
+          required: false
       responses:
-        "200":
+        '200':
           description: Liste des livres
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Livre"
-
+                  $ref: '#/components/schemas/Livre'
     post:
-      summary: Ajouter un livre
       requestBody:
         required: true
         content:
@@ -39,12 +43,12 @@ paths:
             schema:
               type: array
               items:
-                $ref: "#/components/schemas/Livre"
+                $ref: '#/components/schemas/Livre'
       responses:
-        "201":
+        '201':
           description: Livre créé
-        "422":
-          description: Données invalides
+        '422':
+          description: Donnée invalide
   /livres/{id}:
     get:
       summary: Lire un livre
@@ -54,16 +58,16 @@ paths:
           schema: { type: integer }
           required: true
       responses:
-        "200":
+        '200':
           description: Livre trouvé
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Livre"
-        "404":
+                $ref: '#/components/schemas/Livre'
+        '404':
           description: Livre introuvable
     put:
-      summary: remplacer des livres
+      summary: Modifier un livre
       parameters:
         - name: id
           in: path
@@ -74,18 +78,16 @@ paths:
         content:
           application/json:
             schema:
-              type: array
-              items:
-                $ref: "#/components/schemas/Livre"
+              $ref: '#/components/schemas/Livre'
       responses:
-        "200":
-          description: Livres remplacés
-        "404":
-          description: Livres introuvables
-        "422":
-          description: Données invalides
+        '200':
+          description: Livre modifié
+        '422':
+          description: Donnée invalide
+        '404':
+          description: Livre introuvable
     patch:
-      summary: Mettre à jour des livres
+      summary: Modifier partiellement un livre
       parameters:
         - name: id
           in: path
@@ -96,16 +98,14 @@ paths:
         content:
           application/json:
             schema:
-              type: array
-              items:
-                $ref: "#/components/schemas/Livre"
+              $ref: '#/components/schemas/Livre'
       responses:
-        "200":
-          description: Livres mis à jour
-        "404":
-          description: Livres introuvables
-        "422":
-          description: Données invalides
+        '200':
+          description: Livre modifié
+        '422':
+          description: Donnée invalide
+        '404':
+          description: Livre introuvable
     delete:
       summary: Supprimer un livre
       parameters:
@@ -114,9 +114,9 @@ paths:
           schema: { type: integer }
           required: true
       responses:
-        "204":
+        '204':
           description: Livre supprimé
-        "404":
+        '404':
           description: Livre introuvable
 components:
   schemas:
@@ -125,13 +125,10 @@ components:
       properties:
         id:
           type: integer
+          example: 42
         titre:
           type: string
+          example: 'Dadabe'
         auteur:
           type: string
-      required:
-        - titre
-      example:
-        id: 42
-        titre: Dadabe
-        auteur: Michèle Rakotoson
+          example: 'JJR'

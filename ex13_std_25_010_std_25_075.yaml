@@ -187,7 +187,7 @@ paths:
             schema:
               type: array
               items:
-                $ref: "#/components/schemas/Emprunts"
+              $ref: "#/components/schemas/Emprunts"
       responses:
         "201":
           description: Livre emprunté
