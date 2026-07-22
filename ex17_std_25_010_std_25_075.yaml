@@ -110,12 +110,9 @@ paths:
                 $ref: "#/components/schemas/Erreur"
 components:
   schemas:
-    Cours:
+    CoursSansId:
       type: object
       properties:
-        id:
-          type: integer
-          example: 1
         code:
           type: string
           example: "PROG1"
@@ -128,6 +125,14 @@ components:
           required:
             - code
             - intitule
+    Cours:
+      allOf:
+        - $ref: "#/components/schemas/CoursSansId"
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
     Erreur:
       type: object
       properties:
