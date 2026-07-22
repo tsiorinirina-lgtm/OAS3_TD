@@ -182,7 +182,7 @@ paths:
   /livres/{id}/disponibilite:
     put:
       summary: Modifier la disponibilité d'un livre
-      description: Modifie la disponibilité actuel du livre par les nouvelles valeurs fournies et écrase les anciennes valeurs à la première itération mais n'a plus aucun effet dans les prochaines
+      description: Modifie la disponibilité actuel du livre par les nouvelles valeurs fournies et écrase les anciennes valeurs à la première itération mais n'a plus aucun effet dans les prochaines(RFC 9110, section 9.3.4)
       requestBody:
         required: true
         content:
