@@ -113,7 +113,9 @@ paths:
       parameters:
         - name: id
           in: path
-          schema: { type: integer }
+          schema: 
+          type:
+            integer
           required: true
       requestBody:
         required: true
@@ -144,7 +146,8 @@ paths:
       parameters:
         - name: id
           in: path
-          schema: { type: integer }
+          schema:
+            type: integer
           required: true
       responses:
         '204':
@@ -165,7 +168,9 @@ paths:
       parameters:
         - name: id
           in: path
-          schema: { type: integer }
+          schema: 
+            type: 
+              integer
           required: true
       responses:
         '200':
@@ -227,38 +232,96 @@ paths:
               schema:
                 $ref: '#/components/schemas/Erreur'
 
+  /reservations/{reservationId}:
+    put:
+      summary: Imposer une id à sa réservation par un client
+      description: >-
+        "Qu'importe le nombre de réitération, une même instance de cette requête revoit le même résultat que la première
+        fois. Si la connexion se coupe et que le client n'est pas certain du succès de son opération, il réitèrera sa 
+        requête, il rejoue sa requête et si le serveur connaît déjà l'identifiant, au lieu de créer un doublon, il 
+        écrase la ligne déjà existante dans sa base de données."
+      externalDocs:
+        description: Spécification officielle IETF - RFC 9110 Section 9.3.4 (PUT)
+        url: https://ietf.org
+      parameters:
+        - name: reservationId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: 'rid_nds8474788478'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Reservation'
+      responses:
+        '200':
+          description: Réservation posée ou confirmée avec succès.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reservation'
+        '422':
+          description: Entité non traitable (ex. livreId inexistant, usagerId non valide ou livre indisponible).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Erreur'
 components:
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
+
   schemas:
+    LivreId:
+      type: integer
+      format: int64
+      readOnly: true
+      description: L'identifiant unique du livre, auto-généré par le système.
+      example: 42
+
+    UserId:
+      type: string
+      format: uuid
+      description: L'identifiant unique d'un utilisateur (format UUID).
+      example: '3fa85f64-5717-4562-b3fc-2c963f66afa6'
+
     Emprunt:
       type: object
       properties:
         id:
           type: integer
+          example: 1
         livreId:
-          type: integer
+          $ref: '#/components/schemas/LivreId'
         dateEmprunt:
           type: string
           format: date
+          example: '2026-07-21'
         dateRetour:
           type: string
           format: date
+          example: '2026-08-21'
+
     LivreAvecId:
       type: object
+      required:
+        - id
+        - titre
       properties:
         id:
-          type: integer
-          example: 42
+          $ref: '#/components/schemas/LivreId'
         titre:
           type: string
           example: 'Dadabe'
         auteur:
           type: string
-          example: 'JJR'
+          example: 'Michèle Rakotoson'
 
     StatutDisponibilite:
       type: object
@@ -271,11 +334,14 @@ components:
           example: false
         motif:
           type: string
-          description: La raison du changement de statut (obligatoire ou utile si disponible est false).
+          description: La raison du changement de statut.
           example: "Livre actuellement prêté à un autre utilisateur"
 
     Erreur:
       type: object
+      required:
+        - status
+        - title
       properties:
         status:
           type: integer
@@ -288,4 +354,17 @@ components:
           example: "Livre introuvable."
         detail:
           type: string
-          example: "Livre introuvable dans le chemin spéciié"
+          example: "Livre introuvable dans le chemin spécifié"
+
+    Reservation:
+      type: object
+      required:
+        - livreId
+        - usagerId
+      properties:
+        livreId:
+          type: integer
+          description: L'identifiant du livre (fait référence à LivreId).
+          example: 42
+        usagerId:
+          $ref: '#/components/schemas/UserId'

@@ -197,7 +197,7 @@ paths:
     put:
       tags:
         - Livre
-      summary: Note les livres de 0 à 5
+      summary: Assigner une note de 0 à 5 au livre de façon idempotente
       parameters:
         - name: id
           in: path
@@ -212,13 +212,13 @@ paths:
               $ref: '#/components/schemas/Note'
       responses:
         '200':
-          description: Opération réussie
+          description: Note enregistrée avec succès
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/LivreId'
-        '400':
-          description: Requête invalide (format JSON incorrect ou données manquantes).
+        '422':
+          description: Données invalides (ex. note hors intervalle 0-5)
           content:
             application/json:
               schema:
@@ -401,11 +401,16 @@ components:
           example: 'Michel Rakotoson'
 
     Note:
-      type: integer
-      minimum: 0
-      maximum: 5
-      description: La note d'évaluation attribuée au livre, allant obligatoirement de 0 à 5.
-      example: 4
+      type: object
+      required:
+        - valeur
+      properties:
+        valeur:
+          type: integer
+          minimum: 0
+          maximum: 5
+          description: La note d'évaluation attribuée au livre, allant obligatoirement de 0 à 5.
+          example: 4
 
     Favori:
       type: object
