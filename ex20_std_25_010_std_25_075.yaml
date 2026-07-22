@@ -4,8 +4,8 @@ info:
   version: 1.0.0
   description: Gestion des livres et des emprunts
 servers:
-  - url: 'https://api.hei.school/v1'
-  - url: 'https://staging.hei.school/v1'
+  - url: "https://api.hei.school/v1"
+  - url: "https://staging.hei.school/v1"
     description: Environnement de test
 tags:
   - name: Livre
@@ -23,11 +23,11 @@ paths:
             schema:
               type: array
               items:
-                $ref: '#/components/schemas/Emprunt'
+                $ref: "#/components/schemas/Emprunt"
       responses:
-        '201':
+        "201":
           description: List d'emprunts effectué
-        '422':
+        "422":
           description: Données invalides
   /livres:
     get:
@@ -50,14 +50,14 @@ paths:
             default: 20
           required: false
       responses:
-        '200':
+        "200":
           description: Liste des livres
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/LivreAvecId'
+                  $ref: "#/components/schemas/LivreAvecId"
     post:
       tags:
         - Livre
@@ -68,20 +68,20 @@ paths:
             schema:
               type: array
               items:
-                $ref: '#/components/schemas/LivreAvecId'
+                $ref: "#/components/schemas/LivreAvecId"
       responses:
-        '201':
+        "201":
           description: Livre créé
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LivreAvecId'
-        '422':
+                $ref: "#/components/schemas/LivreAvecId"
+        "422":
           description: Donnée invalide
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Erreur'
+                $ref: "#/components/schemas/Erreur"
 
   /livres/{id}:
     get:
@@ -94,18 +94,18 @@ paths:
           schema: { type: integer }
           required: true
       responses:
-        '200':
+        "200":
           description: Livre trouvé
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LivreAvecId'
-        '404':
+                $ref: "#/components/schemas/LivreAvecId"
+        "404":
           description: Livre introuvable
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Erreur'
+                $ref: "#/components/schemas/Erreur"
     put:
       tags:
         - Livre
@@ -113,31 +113,30 @@ paths:
       parameters:
         - name: id
           in: path
-          schema: 
-          type:
-            integer
+          schema:
+            type: integer
           required: true
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/LivreAvecId'
+              $ref: "#/components/schemas/LivreAvecId"
       responses:
-        '200':
+        "200":
           description: Livre modifié
-        '422':
+        "422":
           description: Donnée invalide
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Erreur'
-        '404':
+                $ref: "#/components/schemas/Erreur"
+        "404":
           description: Livre introuvable
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Erreur'
+                $ref: "#/components/schemas/Erreur"
 
     delete:
       tags:
@@ -150,14 +149,14 @@ paths:
             type: integer
           required: true
       responses:
-        '204':
+        "204":
           description: Livre supprimé
-        '404':
+        "404":
           description: Livre introuvable
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Erreur'
+                $ref: "#/components/schemas/Erreur"
 
   /livres/{id}/emprunts:
     get:
@@ -168,26 +167,24 @@ paths:
       parameters:
         - name: id
           in: path
-          schema: 
-            type: 
-              integer
+          schema:
+            type: integer
           required: true
       responses:
-        '200':
+        "200":
           description: Liste d'emprunts d'un livre
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Emprunt'
-        '404':
+                  $ref: "#/components/schemas/Emprunt"
+        "404":
           description: Livre introuvable
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Erreur'
-
+                $ref: "#/components/schemas/Erreur"
 
   /livres/{id}/disponibilite:
     put:
@@ -211,26 +208,26 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/StatutDisponibilite'
+              $ref: "#/components/schemas/StatutDisponibilite"
       responses:
-        '200':
+        "200":
           description: Disponibilité mise à jour avec succès. Renvoie le nouvel état.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/StatutDisponibilite'
-        '400':
+                $ref: "#/components/schemas/StatutDisponibilite"
+        "400":
           description: Requête invalide (format JSON incorrect ou données manquantes).
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Erreur'
-        '404':
+                $ref: "#/components/schemas/Erreur"
+        "404":
           description: Livre introuvable
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Erreur'
+                $ref: "#/components/schemas/Erreur"
 
   /reservations/{reservationId}:
     put:
@@ -250,26 +247,26 @@ paths:
           schema:
             type: string
             format: uuid
-            example: 'rid_nds8474788478'
+            example: "rid_nds8474788478"
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Reservation'
+              $ref: "#/components/schemas/Reservation"
       responses:
-        '200':
+        "200":
           description: Réservation posée ou confirmée avec succès.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Reservation'
-        '422':
+                $ref: "#/components/schemas/Reservation"
+        "422":
           description: Entité non traitable (ex. livreId inexistant, usagerId non valide ou livre indisponible).
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Erreur'
+                $ref: "#/components/schemas/Erreur"
 components:
   securitySchemes:
     bearerAuth:
@@ -289,7 +286,7 @@ components:
       type: string
       format: uuid
       description: L'identifiant unique d'un utilisateur (format UUID).
-      example: '3fa85f64-5717-4562-b3fc-2c963f66afa6'
+      example: "3fa85f64-5717-4562-b3fc-2c963f66afa6"
 
     Emprunt:
       type: object
@@ -298,15 +295,15 @@ components:
           type: integer
           example: 1
         livreId:
-          $ref: '#/components/schemas/LivreId'
+          $ref: "#/components/schemas/LivreId"
         dateEmprunt:
           type: string
           format: date
-          example: '2026-07-21'
+          example: "2026-07-21"
         dateRetour:
           type: string
           format: date
-          example: '2026-08-21'
+          example: "2026-08-21"
 
     LivreAvecId:
       type: object
@@ -315,13 +312,13 @@ components:
         - titre
       properties:
         id:
-          $ref: '#/components/schemas/LivreId'
+          $ref: "#/components/schemas/LivreId"
         titre:
           type: string
-          example: 'Dadabe'
+          example: "Dadabe"
         auteur:
           type: string
-          example: 'Michèle Rakotoson'
+          example: "Michèle Rakotoson"
 
     StatutDisponibilite:
       type: object
@@ -367,4 +364,4 @@ components:
           description: L'identifiant du livre (fait référence à LivreId).
           example: 42
         usagerId:
-          $ref: '#/components/schemas/UserId'
+          $ref: "#/components/schemas/UserId"
