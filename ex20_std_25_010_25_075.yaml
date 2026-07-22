@@ -113,7 +113,9 @@ paths:
       parameters:
         - name: id
           in: path
-          schema: { type: integer }
+          schema: 
+          type:
+            integer
           required: true
       requestBody:
         required: true
@@ -144,7 +146,8 @@ paths:
       parameters:
         - name: id
           in: path
-          schema: { type: integer }
+          schema:
+            type: integer
           required: true
       responses:
         '204':
@@ -165,7 +168,9 @@ paths:
       parameters:
         - name: id
           in: path
-          schema: { type: integer }
+          schema: 
+            type: 
+              integer
           required: true
       responses:
         '200':
