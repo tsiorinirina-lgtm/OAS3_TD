@@ -4,6 +4,11 @@ info:
   version: 1.0.0
 servers:
   - url: "https://api.hei.school/v1"
+security:
+  - bearerAuth: []
+tags:
+  - name: Cours
+    description: Opérations liées au Cours
 paths:
   /cours:
     get:
@@ -169,8 +174,3 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
-tags:
-  - name: Cours
-    description: Opérations liées au Cours
-security:
-  - bearerAuth: []
