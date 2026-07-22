@@ -192,10 +192,22 @@ paths:
       responses:
         "200":
           description: Disponibilité du livre mis à jour avec succès
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Livre"
         "404":
           description: Livre introuvable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Erreur"
         "422":
           description: Données invalides
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Erreur"
 
 components:
   securitySchemes:
@@ -229,6 +241,8 @@ components:
         auteur:
           type: string
           example: "JJR"
+        disponibilite:
+          $ref: "#/components/schemas/Disponibilité"
     Erreur:
       type: object
       properties:
