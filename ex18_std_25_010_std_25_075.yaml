@@ -154,12 +154,16 @@ components:
       properties:
         type:
           type: string
+          example: "https://api.hei.school/v1/error"
         title:
           type: string
+          example: "Ressource introuvable"
         status:
           type: integer
+          example: 404
         detail:
           type: string
+          example: "Ressource non trouvée"
   securitySchemes:
     bearerAuth:
       type: http
