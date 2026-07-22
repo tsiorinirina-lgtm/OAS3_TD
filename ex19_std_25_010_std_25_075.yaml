@@ -12,6 +12,10 @@ tags:
     description: Organisation d'un livre
   - name: Emprunt
     description: Organisation d'un emprunt
+  - name: Disponibilité
+    description: Organisation de la disponibilité des livres
+security:
+  - bearerAuth: []
 paths:
   /emprunts:
     post:
